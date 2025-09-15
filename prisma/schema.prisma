@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  title       String
+  description String
+  tagsCsv     String   // comma-separated tags for simplicity on SQLite
+  url         String?
+  repoUrl     String?
+  media       Json?    // array of media items { type: 'image'|'video', src: string }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
