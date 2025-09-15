@@ -5,17 +5,42 @@ const prisma = new PrismaClient();
 async function main() {
   const demo = [
     {
-      slug: "nextjs-portfolio",
-      title: "Next.js Portfolio",
+      slug: "aiivr-demo",
+      title: "AIIVR Demo",
       description:
-        "A modern single-page portfolio with dark/light theme, animations, and media-rich project pages.",
-      tagsCsv: "nextjs,react,typescript,tailwind,framer-motion",
-      url: "https://example.com",
-      repoUrl: "https://github.com/example/portfolio",
+        "Live call management MVP using Next.js 15, TypeScript, Tailwind CSS, and WebSockets for real-time updates.",
+      tagsCsv: "nextjs,typescript,tailwind,websockets,real-time",
+      url: "",
+      repoUrl: "",
       media: [
-        { type: "image", src: "/projects/portfolio-1.jpg" },
-        { type: "image", src: "/projects/portfolio-2.jpg" },
-        { type: "video", src: "/projects/portfolio-demo.mp4" },
+        { type: "image", src: "/projects/aiivr-placeholder.svg" },
+        { type: "image", src: "/projects/aiivr-placeholder.svg" },
+      ],
+    },
+    {
+      slug: "shiny-couscous",
+      title: "Shiny Couscous (E-Commerce)",
+      description:
+        "Modern e-commerce platform with Next.js, Stripe, Sanity CMS, Zustand state, and Umami analytics.",
+      tagsCsv: "nextjs,typescript,stripe,sanity,zustand,analytics",
+      url: "",
+      repoUrl: "",
+      media: [
+        { type: "image", src: "/projects/shiny-couscous-placeholder.svg" },
+        { type: "image", src: "/projects/shiny-couscous-placeholder.svg" },
+      ],
+    },
+    {
+      slug: "fyndr",
+      title: "Fyndr (Social App)",
+      description:
+        "Cross-platform Flutter app featuring real-time chat, personalized profiles, and discovery.",
+      tagsCsv: "flutter,mobile,chat,real-time",
+      url: "",
+      repoUrl: "",
+      media: [
+        { type: "image", src: "/projects/fyndr-placeholder.svg" },
+        { type: "image", src: "/projects/fyndr-placeholder.svg" },
       ],
     },
   ];
