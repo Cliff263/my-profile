@@ -4,14 +4,24 @@ import { useEffect, useRef, useState } from "react";
 
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-export function RandomText({ text, className }: { text: string; className?: string }) {
+export function RandomText({
+  text,
+  className,
+  totalDurationMs = 1000,
+  scrambleDurationMs = 600,
+  onDone,
+}: {
+  text: string;
+  className?: string;
+  totalDurationMs?: number;
+  scrambleDurationMs?: number;
+  onDone?: () => void;
+}) {
   const [display, setDisplay] = useState<string>("");
   const frameRef = useRef<number | null>(null);
   const startRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const totalDurationMs = 1000;
-    const scrambleDurationMs = 600;
 
     const animate = (now: number) => {
       if (startRef.current === null) startRef.current = now;
@@ -32,6 +42,7 @@ export function RandomText({ text, className }: { text: string; className?: stri
       } else {
         setDisplay(text);
         if (frameRef.current) cancelAnimationFrame(frameRef.current);
+        if (onDone) onDone();
       }
     };
 
@@ -40,7 +51,7 @@ export function RandomText({ text, className }: { text: string; className?: stri
       if (frameRef.current) cancelAnimationFrame(frameRef.current);
       startRef.current = null;
     };
-  }, [text]);
+  }, [text, totalDurationMs, scrambleDurationMs, onDone]);
 
   return <span className={className}>{display}</span>;
 }
