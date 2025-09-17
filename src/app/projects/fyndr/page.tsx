@@ -1,9 +1,10 @@
-import Image from "next/image";
+import Link from "next/link";
+import OptimizedImage from "@/components/optimized-image";
 
 export default function FyndrPage() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
-      <a href="/#projects" className="text-sm opacity-70 hover:opacity-100">← Back to projects</a>
+      <Link href="/#projects" className="text-sm opacity-70 hover:opacity-100">← Back to projects</Link>
       <h1 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">Fyndr (Social App)</h1>
       <p className="mt-2 text-black/70 dark:text-white/70">
         Cross‑platform Flutter app featuring real‑time chat, personalized profiles, and powerful discovery capabilities designed for social engagement.
@@ -26,7 +27,7 @@ export default function FyndrPage() {
       </div>
 
       <div className="mt-8 grid gap-4">
-        <Image src="/projects/fyndr-placeholder.svg" alt="Fyndr" width={1200} height={675} className="rounded-lg border border-black/10 dark:border-white/10" />
+        <OptimizedImage src="/projects/fyndr-placeholder.svg" alt="Fyndr" width={1200} height={675} className="rounded-lg border border-black/10 dark:border-white/10" priority={true} />
       </div>
 
       <div className="mt-8 flex gap-3">

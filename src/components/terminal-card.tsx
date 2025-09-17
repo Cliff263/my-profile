@@ -28,13 +28,18 @@ function TerminalCard({
         </div>
       )}
       <div className="px-4 lg:px-8 py-3 lg:py-4 relative">
-        {showControls && (
-          <div className="flex flex-row space-x-1 lg:space-x-2">
-            <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-red-500`}></div>
-            <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-amber-500`}></div>
-            <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-emerald-500`}></div>
-          </div>
-        )}
+        <div className="flex items-center justify-center relative">
+          {showControls && (
+            <div className="absolute left-0 flex flex-row space-x-1 lg:space-x-2">
+              <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-red-500`}></div>
+              <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-amber-500`}></div>
+              <div className={`${smallDots ? 'h-1.5 w-1.5 lg:h-2 lg:w-2' : 'h-2 w-2 lg:h-3 lg:w-3'} rounded-full bg-emerald-500`}></div>
+            </div>
+          )}
+          {title && (
+            <h3 className="text-lg font-semibold text-gradient-animate">{title}</h3>
+          )}
+        </div>
       </div>
       <div className="overflow-hidden border-t border-black/10 dark:border-white/10 px-4 lg:px-8 py-4 lg:py-6">
         {children}

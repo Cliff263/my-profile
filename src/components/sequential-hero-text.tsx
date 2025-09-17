@@ -24,7 +24,7 @@ export function SequentialHeroText() {
         ) : null}
         <br className="hidden sm:block" />
         <span className="text-3xl sm:text-5xl opacity-90">
-          {step >= 3 ? <RandomText text="a Professional " onDone={next} /> : null}
+          {step >= 3 ? <RandomText text=" a Professional " onDone={next} /> : null}
           {step >= 4 ? (
             <span className="code-gradient">
               <RandomText text="DevOps" onDone={next} />

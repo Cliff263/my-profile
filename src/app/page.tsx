@@ -1,8 +1,7 @@
-import { Github, Twitter, Facebook, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import { SkillsMarquee } from "@/components/skills-marquee";
-import { SequentialHeroText } from "@/components/sequential-hero-text";
-import ProjectCard from "@/components/project-card";
-import TerminalCard from "@/components/terminal-card";
+"use client";
+
+import { useState, lazy, Suspense } from "react";
+import { Mail, Phone, Send, Clock, MapPin as Location } from "lucide-react";
 import Link from "next/link";
 import { 
   SiFlutter, 
@@ -33,16 +32,182 @@ import {
   FaCogs 
 } from "react-icons/fa";
 
+// Lazy load components for better performance
+const SkillsMarquee = lazy(() => import("@/components/skills-marquee").then(module => ({ default: module.SkillsMarquee })));
+const SequentialHeroText = lazy(() => import("@/components/sequential-hero-text").then(module => ({ default: module.SequentialHeroText })));
+const ProjectCard = lazy(() => import("@/components/project-card"));
+const TerminalCard = lazy(() => import("@/components/terminal-card"));
+
+// Contact Form Component
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Use Web3Forms for free email handling
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: '0d4db401-ffd1-403d-b497-6de30e68b769',
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || `Message from ${formData.name}`,
+          message: formData.message,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="form-group">
+        <label className="block text-sm font-medium mb-2 text-black/80 dark:text-white/80">
+          Your Name <span className="text-red-400">*</span>
+        </label>
+        <input 
+          type="text" 
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="input-enhanced w-full" 
+          placeholder="Enter your full name"
+          required
+        />
+      </div>
+      
+      <div className="form-group">
+        <label className="block text-sm font-medium mb-2 text-black/80 dark:text-white/80">
+          Email Address <span className="text-red-400">*</span>
+        </label>
+        <input 
+          type="email" 
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="input-enhanced w-full" 
+          placeholder="your.email@example.com"
+          required
+        />
+      </div>
+      
+      <div className="form-group">
+        <label className="block text-sm font-medium mb-2 text-black/80 dark:text-white/80">
+          Subject
+        </label>
+        <input 
+          type="text" 
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          className="input-enhanced w-full" 
+          placeholder="What's this about?"
+        />
+      </div>
+      
+      <div className="form-group">
+        <label className="block text-sm font-medium mb-2 text-black/80 dark:text-white/80">
+          Message <span className="text-red-400">*</span>
+        </label>
+        <textarea 
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          className="input-enhanced w-full min-h-32 resize-none" 
+          placeholder="Tell me about your project, idea, or just say hello..."
+          required
+        ></textarea>
+      </div>
+      
+      {submitStatus === 'success' && (
+        <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
+          ✓ Message sent successfully! I`ll get back to you within 24 hours.
+        </div>
+      )}
+      
+      {submitStatus === 'error' && (
+        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+          ✗ Something went wrong. Please try again or contact me directly.
+        </div>
+      )}
+      
+      <button 
+        type="submit" 
+        disabled={isSubmitting}
+        className="btn-enhanced w-full group-hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <Send className="h-4 w-4" />
+        {isSubmitting ? 'Preparing...' : 'Send Message'}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </button>
+    </form>
+  );
+}
+
+
 export default function Home() {
   return (
     <main className="mx-auto max-w-6xl px-4">
       {/* Hero */}
       <section id="hero" className="min-h-[60vh] grid items-center py-8">
-        <div className="mx-auto max-w-6xl px-0 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="mx-auto max-w-6xl px-0 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
           <div>
-            <SequentialHeroText />
+            <Suspense fallback={<div className="h-16 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent text-4xl font-bold animate-pulse">Loading...</div>}>
+              <SequentialHeroText />
+            </Suspense>
             
-            <div className="mt-6 flex flex-wrap gap-3">
+            {/* Contact Information */}
+            <div className="mt-6 flex flex-wrap gap-6 text-sm text-black/70 dark:text-white/70">
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-cyan-400" />
+                <a href="mailto:cliffjaure263@gmail.com" className="hover:text-cyan-400 transition-colors duration-300">
+                  cliffjaure263@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-emerald-400" />
+                <a href="tel:+263779190068" className="hover:text-emerald-400 transition-colors duration-300">
+                  +263 779 190 068
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <Location className="h-4 w-4 text-purple-400" />
+                <span>Bulawayo, Zimbabwe</span>
+              </div>
+            </div>
+            
+            <div className="mt-6 flex flex-col sm:flex-row flex-wrap gap-3">
               <Link href="#contact" className="btn-gradient text-sm font-medium flex items-center justify-center px-6 py-3 rounded-lg">Contact Me</Link>
               <Link href="https://drive.google.com/file/d/1beD9iI6qk35_Y_6kkHJWthKxiK_CZbs1/view?usp=drive_link" target="_blank" rel="noreferrer noopener" className="px-6 py-3 rounded-lg border border-cyan-400/30 text-sm font-medium backdrop-blur bg-cyan-500/10 hover:bg-cyan-500/20 hover:border-cyan-400/50 hover:text-cyan-300 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25 flex items-center justify-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,23 +216,10 @@ export default function Home() {
                 Get Resume
               </Link>
             </div>
-            <div className="mt-5 flex flex-wrap gap-3 text-sm">
-              <Link className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-cyan-400 hover:scale-110 hover:border-cyan-400/30" href="https://github.com/Cliff263" target="_blank" rel="noreferrer noopener" aria-label="GitHub">
-                <Github className="h-5 w-5" />
-              </Link>
-              <Link className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-sky-400 hover:scale-110 hover:border-sky-400/30" href="https://x.com/CeJay_Cliffs" target="_blank" rel="noreferrer noopener" aria-label="X / Twitter">
-                <Twitter className="h-5 w-5" />
-              </Link>
-              <Link className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-blue-500 hover:scale-110 hover:border-blue-500/30" href="https://www.facebook.com/cliff.jaure" target="_blank" rel="noreferrer noopener" aria-label="Facebook">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-blue-400 hover:scale-110 hover:border-blue-400/30" href="https://www.linkedin.com/in/takunda-jaure-106028242" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn">
-                <Linkedin className="h-5 w-5" />
-              </Link>
-            </div>
           </div>
           <div className="hidden lg:block">
-            <TerminalCard className="rounded-2xl overflow-hidden code-window" smallDots={true}>
+            <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse"></div>}>
+              <TerminalCard className="rounded-2xl overflow-hidden code-window" smallDots={true}>
               <div className="scanlines">
                 <pre className="text-sm leading-7 font-mono overflow-x-auto">
                   <code>
@@ -105,7 +257,8 @@ export default function Home() {
                   </code>
                 </pre>
               </div>
-            </TerminalCard>
+              </TerminalCard>
+            </Suspense>
           </div>
         </div>
       </section>
@@ -125,7 +278,7 @@ export default function Home() {
             </div>
           </TerminalCard>
           
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <TerminalCard className="hover:shadow-2xl transition-all duration-300" smallDots={true}>
                 <h4 className="font-semibold text-lg mb-3 text-cyan-400">Passion</h4>
                 <p className="text-sm text-black/70 dark:text-white/70 leading-relaxed">
@@ -161,7 +314,7 @@ export default function Home() {
       {/* Education */}
       <section id="education" className="py-8">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-8"><span className="code-gradient">Education</span></h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <TerminalCard className="hover:shadow-2xl transition-all duration-300" smallDots={true}>
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
@@ -375,7 +528,8 @@ export default function Home() {
       <section id="skills" className="py-8">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-8"><span className="code-gradient">Skills</span></h2>
         <TerminalCard className="hover:shadow-2xl transition-all duration-300" smallDots={true}>
-          <SkillsMarquee
+          <Suspense fallback={<div className="h-20 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse"></div>}>
+            <SkillsMarquee
           skills={[
             { name: "Dart", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">D</span> },
             { name: "JavaScript", icon: <span className="h-6 w-6 text-yellow-500 font-bold text-sm flex items-center justify-center">JS</span> },
@@ -425,13 +579,14 @@ export default function Home() {
             { name: "WebSockets", icon: <span className="h-6 w-6 text-cyan-500 font-bold text-xs flex items-center justify-center">WS</span> },
           ]}
         />
+          </Suspense>
         </TerminalCard>
       </section>
 
       {/* Services */}
       <section id="services" className="py-8">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-8"><span className="code-gradient">Services</span></h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           <TerminalCard className="group hover:shadow-2xl transition-all duration-300" smallDots={true}>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
@@ -514,7 +669,11 @@ export default function Home() {
 
       {/* Projects */}
       <section id="projects" className="py-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-8"><span className="code-gradient">Projects</span></h2>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            <span className="code-gradient">Projects</span>
+          </h2>
+        </div>
         <div className="flex flex-col gap-6">
           {[
             { 
@@ -556,7 +715,9 @@ export default function Home() {
               className="sticky-card w-full mx-auto max-w-4xl sticky"
             >
               <div className="box-border flex items-center justify-center rounded shadow-lg transition-all duration-300 hover:shadow-xl">
-                <ProjectCard project={project} />
+                <Suspense fallback={<div className="h-64 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse"></div>}>
+                  <ProjectCard project={project} />
+                </Suspense>
               </div>
             </div>
           ))}
@@ -565,43 +726,22 @@ export default function Home() {
 
       {/* Contact */}
       <section id="contact" className="py-8">
-        <h2 className="text-2xl sm:text-3xl font-semibold mb-8"><span className="code-gradient">Get in touch with me</span></h2>
-        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <TerminalCard className="space-y-4 hover:shadow-2xl transition-all duration-300" smallDots={true}>
-            <p className="text-black/70 dark:text-white/70">If you have any questions or concerns, please contact me. I am open to roles aligned with my skills and interests.</p>
-            <div>
-              <label className="text-sm opacity-80">Your Name:</label>
-              <input className="input-modern mt-2" placeholder="John Doe" />
-            </div>
-            <div>
-              <label className="text-sm opacity-80">Your Email:</label>
-              <input type="email" className="input-modern mt-2" placeholder="you@example.com" />
-            </div>
-            <div>
-              <label className="text-sm opacity-80">Your Message:</label>
-              <textarea className="input-modern mt-2 min-h-40" placeholder="Write your message..." />
-            </div>
-            <button type="button" className="btn-gradient text-sm font-medium inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg hover:scale-105 transition-all duration-300">Send Message</button>
-          </TerminalCard>
-          <TerminalCard className="space-y-6 hover:shadow-2xl transition-all duration-300" smallDots={true}>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 dark:bg-black/20 hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300">
-              <Mail className="h-5 w-5 opacity-70 text-cyan-400" /> 
-              <span className="text-black/70 dark:text-white/70">cliffjaure263@gmail.com</span>
-            </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 dark:bg-black/20 hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300">
-              <Phone className="h-5 w-5 opacity-70 text-emerald-400" /> 
-              <span className="text-black/70 dark:text-white/70">+263779190068</span>
-            </div>
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 dark:bg-black/20 hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300">
-              <MapPin className="h-5 w-5 opacity-70 text-purple-400" /> 
-              <span className="text-black/70 dark:text-white/70">Hse No.4 Forrester, Khumalo, Byo, Zimbabwe</span>
-            </div>
-            <div className="pt-2 flex items-center gap-4">
-              <a className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-cyan-400 hover:scale-110 hover:border-cyan-400/30" href="https://github.com/Cliff263" target="_blank" rel="noreferrer noopener" aria-label="GitHub"><Github className="h-5 w-5" /></a>
-              <a className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-sky-400 hover:scale-110 hover:border-sky-400/30" href="https://x.com/CeJay_Cliffs" target="_blank" rel="noreferrer noopener" aria-label="X / Twitter"><Twitter className="h-5 w-5" /></a>
-              <a className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-blue-500 hover:scale-110 hover:border-blue-500/30" href="https://www.facebook.com/cliff.jaure" target="_blank" rel="noreferrer noopener" aria-label="Facebook"><Facebook className="h-5 w-5" /></a>
-              <a className="inline-flex items-center justify-center h-10 w-10 rounded-full border border-white/10 transition-all duration-300 hover:text-blue-400 hover:scale-110 hover:border-blue-400/30" href="https://www.linkedin.com/in/takunda-jaure-106028242" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn"><Linkedin className="h-5 w-5" /></a>
-            </div>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            <span className="code-gradient">Let`s Build Something Amazing</span>
+          </h2>
+          <p className="text-base text-black/70 dark:text-white/70 max-w-xl mx-auto mb-4">
+            I`m always excited to discuss new opportunities, collaborate on innovative projects, or simply chat about technology.
+          </p>
+          <div className="flex items-center justify-center gap-2 text-sm text-emerald-500 dark:text-emerald-400">
+            <Clock className="h-4 w-4" />
+            <span>Available for new opportunities • Response within 24 hours</span>
+          </div>
+        </div>
+
+        <div className="max-w-2xl mx-auto">
+          <TerminalCard className="space-y-6 hover:shadow-2xl transition-all duration-500 group" smallDots={true} title="Send a Message">
+            <ContactForm />
           </TerminalCard>
         </div>
       </section>

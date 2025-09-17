@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import Image from "next/image";
+import Link from "next/link";
+import OptimizedImage from "@/components/optimized-image";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -10,12 +11,12 @@ export default async function ProjectPage({ params }: Props) {
   const project = await prisma.project.findUnique({ where: { slug } });
   if (!project) return <div className="mx-auto max-w-4xl px-4 py-20">Project not found.</div>;
 
-  const mediaItems = Array.isArray(project.media) ? (project.media as any[]) : [];
+  const mediaItems = Array.isArray(project.media) ? (project.media as Array<{ type: string; src: string }>) : [];
   const tags = project.tagsCsv.split(",").map((t) => t.trim());
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-12">
-      <a href="/#projects" className="text-sm opacity-70 hover:opacity-100">← Back to projects</a>
+      <Link href="/#projects" className="text-sm opacity-70 hover:opacity-100">← Back to projects</Link>
       <h1 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">{project.title}</h1>
       <p className="mt-2 text-black/70 dark:text-white/70">{project.description}</p>
       <div className="mt-4 flex flex-wrap gap-2">
@@ -29,7 +30,7 @@ export default async function ProjectPage({ params }: Props) {
         {mediaItems.map((m, idx) => {
           if (m.type === "image") {
             return (
-              <Image key={idx} src={m.src} alt="project media" width={1200} height={675} className="rounded-lg border border-black/10 dark:border-white/10" />
+              <OptimizedImage key={idx} src={m.src} alt="project media" width={1200} height={675} className="rounded-lg border border-black/10 dark:border-white/10" />
             );
           }
           if (m.type === "video") {
