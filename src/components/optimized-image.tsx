@@ -12,7 +12,7 @@ interface OptimizedImageProps {
   priority?: boolean;
   placeholder?: "blur" | "empty";
   blurDataURL?: string;
-}
+}  
 
 export default function OptimizedImage({
   src,
