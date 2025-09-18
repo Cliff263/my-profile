@@ -126,7 +126,9 @@ export default function RootLayout({
               <DynamicNav />
               <span className="hidden md:inline-block h-6 w-px bg-black/20 dark:bg-white/20 ml-2" />
               <div className="ml-auto md:ml-0 flex items-center gap-2">
-                <ThemeToggle />
+                <div className="hidden md:block">
+                  <ThemeToggle />
+                </div>
                 <MobileMenu />
               </div>
             </div>

@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded background -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGradient)"/>
+  
+  <!-- Terminal/Code icon representing DevOps and development -->
+  <g transform="translate(96, 96)">
+    <!-- Terminal window -->
+    <rect x="0" y="0" width="320" height="224" rx="32" fill="none" stroke="url(#iconGradient)" stroke-width="24"/>
+    
+    <!-- Terminal header dots -->
+    <circle cx="48" cy="48" r="16" fill="url(#iconGradient)"/>
+    <circle cx="96" cy="48" r="16" fill="url(#iconGradient)"/>
+    <circle cx="144" cy="48" r="16" fill="url(#iconGradient)"/>
+    
+    <!-- Code lines -->
+    <rect x="32" y="96" width="128" height="16" rx="8" fill="url(#iconGradient)"/>
+    <rect x="32" y="128" width="192" height="16" rx="8" fill="url(#iconGradient)"/>
+    <rect x="32" y="160" width="96" height="16" rx="8" fill="url(#iconGradient)"/>
+    
+    <!-- Cursor -->
+    <rect x="128" y="160" width="16" height="16" fill="url(#iconGradient)"/>
+  </g>
+  
+  <!-- Small gear icon in corner representing DevOps -->
+  <g transform="translate(320, 64)">
+    <circle cx="96" cy="96" r="64" fill="none" stroke="url(#iconGradient)" stroke-width="16" opacity="0.7"/>
+    <circle cx="96" cy="96" r="24" fill="url(#iconGradient)" opacity="0.7"/>
+    <rect x="88" y="16" width="16" height="32" fill="url(#iconGradient)" opacity="0.7"/>
+    <rect x="88" y="144" width="16" height="32" fill="url(#iconGradient)" opacity="0.7"/>
+    <rect x="16" y="88" width="32" height="16" fill="url(#iconGradient)" opacity="0.7"/>
+    <rect x="144" y="88" width="32" height="16" fill="url(#iconGradient)" opacity="0.7"/>
+  </g>
+</svg>
