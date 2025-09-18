@@ -67,21 +67,14 @@ export const metadata: Metadata = {
     siteName: "Takunda Cliff Jaure",
     title: "Takunda Cliff Jaure — DevOps Engineer & Full‑Stack Developer",
     description: "DevOps Engineer & Full-Stack Developer building scalable, secure apps across web, mobile, and cloud.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Takunda Cliff Jaure - DevOps Engineer & Full-Stack Developer",
-      },
-    ],
+    images: [],
   },
   twitter: {
     card: "summary_large_image",
     title: "Takunda Cliff Jaure — DevOps Engineer & Full‑Stack Developer",
     description: "DevOps Engineer & Full-Stack Developer building scalable, secure apps across web, mobile, and cloud.",
     creator: "@CeJay_Cliffs",
-    images: ["/og-image.jpg"],
+    images: [],
   },
   verification: {
     google: "your-google-verification-code",
@@ -103,11 +96,8 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/icon.svg", type: "image/svg+xml" },
-    ],
-    apple: [
-      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
   other: {

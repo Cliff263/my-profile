@@ -1,5 +1,6 @@
 "use client";
 
+ 
 import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -18,7 +19,7 @@ export function MobileMenu() {
   const navLinks = useMemo(() => [
     { href: "#about", label: "About" },
     { href: "#education", label: "Education" },
-    { href: "#experience", label: "Experience" }, // longest
+    { href: "#experience", label: "Experience" },
     { href: "#skills", label: "Skills" },
     { href: "#services", label: "Services" },
     { href: "#projects", label: "Projects" },
@@ -41,9 +42,9 @@ export function MobileMenu() {
         return w > max ? w : max;
       }, 0);
 
-      const fullWidth = Math.ceil(maxWidth) + 2; // +1px each side
+      const fullWidth = Math.ceil(maxWidth) + 32; // +16px padding each side
       setButtonWidth(fullWidth);
-      setDrawerWidth(fullWidth);
+      setDrawerWidth(Math.max(fullWidth, 200)); // Minimum 200px width for better UX
     }
 
     measure();
@@ -106,9 +107,11 @@ export function MobileMenu() {
         >
           {/* Drawer */}
           <div
-            className={`absolute top-0 right-3 h-full glass-panel border-l border-black/10 dark:border-white/10 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col w-[${drawerWidth}px] ${
-              animateIn ? "translate-x-0" : `translate-x-[${drawerWidth}px]`
-            }`}
+            className={`absolute top-0 right-0 h-full glass-panel border-l border-black/10 dark:border-white/10 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col`}
+            style={{ 
+              width: `${drawerWidth}px`,
+              transform: animateIn ? 'translateX(0)' : 'translateX(100%)'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -130,7 +133,7 @@ export function MobileMenu() {
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
-                  style={{ width: `${buttonWidth}px` }}
+                  style={{ width: `${Math.max(buttonWidth, 120)}px` }}
                   className="text-center px-4 py-3 text-sm sm:text-base font-medium text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-all duration-300 glass-panel hover:shadow-lg"
                 >
                   {link.label}

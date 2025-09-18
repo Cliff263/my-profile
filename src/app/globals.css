@@ -19,6 +19,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Mobile menu dynamic styles */
+.drawer-dynamic {
+  width: var(--drawer-width);
+  transform: var(--drawer-transform);
+}
+
+.button-dynamic {
+  width: var(--button-width);
+}
+
 /* animations */
 @keyframes marquee-rtl {
   0% {
@@ -61,6 +71,7 @@ body {
 .sticky-card:nth-child(2) { top: 4rem; }
 .sticky-card:nth-child(3) { top: 6rem; }
 .sticky-card:nth-child(4) { top: 8rem; }
+.sticky-card:nth-child(5) { top: 10rem; }
 
 /* Experience section sticky positioning */
 #sticky-experience-1 { top: 2rem; }
@@ -68,6 +79,47 @@ body {
 #sticky-experience-3 { top: 6rem; }
 #sticky-experience-4 { top: 8rem; }
 #sticky-experience-5 { top: 10rem; }
+
+/* Mobile sticky card stacking */
+@media (max-width: 768px) {
+  .sticky-card {
+    position: sticky;
+    top: 1rem;
+    z-index: 1;
+  }
+  
+  .sticky-card:nth-child(1) { top: 1rem; z-index: 1; }
+  .sticky-card:nth-child(2) { top: 2rem; z-index: 2; }
+  .sticky-card:nth-child(3) { top: 3rem; z-index: 3; }
+  .sticky-card:nth-child(4) { top: 4rem; z-index: 4; }
+  .sticky-card:nth-child(5) { top: 5rem; z-index: 5; }
+  .sticky-card:nth-child(6) { top: 6rem; z-index: 6; }
+  
+  /* Experience section */
+  #sticky-experience-1 { top: 1rem; z-index: 1; }
+  #sticky-experience-2 { top: 2rem; z-index: 2; }
+  #sticky-experience-3 { top: 3rem; z-index: 3; }
+  #sticky-experience-4 { top: 4rem; z-index: 4; }
+  #sticky-experience-5 { top: 5rem; z-index: 5; }
+  
+  /* About section - only 4 grid cards (Professional Journey excluded) */
+  #about .grid > div:nth-child(1) { position: sticky; top: 1rem; z-index: 1; }
+  #about .grid > div:nth-child(2) { position: sticky; top: 2rem; z-index: 2; }
+  #about .grid > div:nth-child(3) { position: sticky; top: 3rem; z-index: 3; }
+  #about .grid > div:nth-child(4) { position: sticky; top: 4rem; z-index: 4; }
+  
+  /* Education section - 2 cards */
+  #education .grid > div:nth-child(1) { position: sticky; top: 1rem; z-index: 1; }
+  #education .grid > div:nth-child(2) { position: sticky; top: 2rem; z-index: 2; }
+  
+  /* Services section - 6 cards */
+  #services .grid > div:nth-child(1) { position: sticky; top: 1rem; z-index: 1; }
+  #services .grid > div:nth-child(2) { position: sticky; top: 2rem; z-index: 2; }
+  #services .grid > div:nth-child(3) { position: sticky; top: 3rem; z-index: 3; }
+  #services .grid > div:nth-child(4) { position: sticky; top: 4rem; z-index: 4; }
+  #services .grid > div:nth-child(5) { position: sticky; top: 5rem; z-index: 5; }
+  #services .grid > div:nth-child(6) { position: sticky; top: 6rem; z-index: 6; }
+}
 
 .text-gradient-animate {
   background-image: linear-gradient(90deg, #10b981, #14b8a6, #06b6d4, #7c3aed, #ec4899);

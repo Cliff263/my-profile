@@ -4,26 +4,6 @@ import { useState, lazy, Suspense } from "react";
 import { Mail, Phone, Send, Clock, MapPin as Location } from "lucide-react";
 import Link from "next/link";
 import { 
-  SiFlutter, 
-  SiNextdotjs, 
-  SiTypescript, 
-  SiReact, 
-  SiNodedotjs, 
-  SiLaravel,
-  SiPrisma,
-  SiPostgresql,
-  SiMongodb,
-  SiAmazon,
-  SiDocker,
-  SiKubernetes,
-  SiTerraform,
-  SiJenkins,
-  SiStripe,
-  SiSanity,
-  SiUmami,
-  SiPython
-} from "react-icons/si";
-import { 
   FaCode, 
   FaServer, 
   FaMobile, 
@@ -37,6 +17,7 @@ const SkillsMarquee = lazy(() => import("@/components/skills-marquee").then(modu
 const SequentialHeroText = lazy(() => import("@/components/sequential-hero-text").then(module => ({ default: module.SequentialHeroText })));
 const ProjectCard = lazy(() => import("@/components/project-card"));
 const TerminalCard = lazy(() => import("@/components/terminal-card"));
+const HeroTerminal = lazy(() => import("@/components/hero-terminal").then(module => ({ default: module.HeroTerminal })));
 
 // Contact Form Component
 function ContactForm() {
@@ -217,49 +198,9 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="hidden lg:block">
-            <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse"></div>}>
-              <TerminalCard className="rounded-2xl overflow-hidden code-window" smallDots={true}>
-              <div className="scanlines">
-                <pre className="text-sm leading-7 font-mono overflow-x-auto">
-                  <code>
-                    <span className="code-token-const">const</span> <span className="code-token-ident">coder</span> <span className="code-token-punc">=</span> <span className="code-token-punc">{'{'}</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">name</span><span className="code-token-punc">:</span> <span className="code-token-string">&apos;Cliff Jaure&apos;</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">skills</span><span className="code-token-punc">:</span><span className="code-token-punc">[</span><span className="code-token-string">&apos;Devops&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;NextJS&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;Jenkins&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;CI/CD&apos;</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-string">&apos;PostgreSQL&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;MySql&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;MongoDB&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;Docker&apos;</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-string">&apos;Linux&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;Python&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;Golang&apos;</span><span className="code-token-punc">,</span> <span className="code-token-string">&apos;AWS&apos;</span><span className="code-token-punc">]</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">hardWorker</span><span className="code-token-punc">:</span> <span className="code-token-boolean">true</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">quickLearner</span><span className="code-token-punc">:</span> <span className="code-token-boolean">true</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">problemSolver</span><span className="code-token-punc">:</span> <span className="code-token-boolean">true</span><span className="code-token-punc">,</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-key">hireable</span><span className="code-token-punc">:</span> <span className="code-token-func">function</span><span className="code-token-punc">()</span> <span className="code-token-punc">{'{'}</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-func">return</span> <span className="code-token-punc">(</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-const">this</span><span className="code-token-punc">.</span><span className="code-token-key">hardWorker</span> <span className="code-token-punc">&&</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-const">this</span><span className="code-token-punc">.</span><span className="code-token-key">problemSolver</span> <span className="code-token-punc">&&</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-const">this</span><span className="code-token-punc">.</span><span className="code-token-key">skills</span><span className="code-token-punc">.</span><span className="code-token-func">length</span> <span className="code-token-punc">&gt;=</span> <span className="code-token-boolean">5</span>
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span className="code-token-punc">)</span>
-                    <br />
-                    &nbsp;&nbsp;<span className="code-token-punc">{'}'}</span>
-                    <br />
-                    <span className="code-token-punc">{'}'}</span><span className="code-token-punc">;</span>
-                  </code>
-                </pre>
-              </div>
-              </TerminalCard>
-            </Suspense>
-          </div>
+          <Suspense fallback={<div className="h-96 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse"></div>}>
+            <HeroTerminal />
+          </Suspense>
         </div>
       </section>
 
@@ -531,52 +472,52 @@ export default function Home() {
           <Suspense fallback={<div className="h-20 bg-gray-100 dark:bg-gray-800 rounded-lg animate-pulse"></div>}>
             <SkillsMarquee
           skills={[
-            { name: "Dart", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">D</span> },
-            { name: "JavaScript", icon: <span className="h-6 w-6 text-yellow-500 font-bold text-sm flex items-center justify-center">JS</span> },
-            { name: "TypeScript", icon: <SiTypescript className="h-6 w-6 text-blue-600" /> },
-            { name: "PHP", icon: <SiLaravel className="h-6 w-6 text-red-500" /> },
-            { name: "Python", icon: <SiPython className="h-6 w-6 text-yellow-500" /> },
-            { name: "Arduino C", icon: <span className="h-6 w-6 text-green-600 font-bold text-xs flex items-center justify-center">C</span> },
-            { name: "GraphQL", icon: <span className="h-6 w-6 text-pink-500 font-bold text-xs flex items-center justify-center">GQL</span> },
-            { name: "Flutter", icon: <SiFlutter className="h-6 w-6 text-blue-500" /> },
-            { name: "React", icon: <SiReact className="h-6 w-6 text-cyan-500" /> },
-            { name: "Next.js", icon: <SiNextdotjs className="h-6 w-6 text-black dark:text-white" /> },
-            { name: "Node.js", icon: <SiNodedotjs className="h-6 w-6 text-green-600" /> },
-            { name: "Express.js", icon: <span className="h-6 w-6 text-gray-600 font-bold text-xs flex items-center justify-center">EX</span> },
-            { name: "Zustand", icon: <span className="h-6 w-6 text-orange-600 font-bold text-sm flex items-center justify-center">Z</span> },
-            { name: "Tailwind CSS", icon: <span className="h-6 w-6 text-cyan-500 font-bold text-xs flex items-center justify-center">TW</span> },
-            { name: "AWS", icon: <SiAmazon className="h-6 w-6 text-orange-500" /> },
-            { name: "Terraform", icon: <SiTerraform className="h-6 w-6 text-purple-600" /> },
-            { name: "Jenkins", icon: <SiJenkins className="h-6 w-6 text-red-600" /> },
-            { name: "GitHub Actions", icon: <span className="h-6 w-6 text-gray-800 dark:text-gray-200 font-bold text-xs flex items-center justify-center">GA</span> },
-            { name: "Docker", icon: <SiDocker className="h-6 w-6 text-blue-500" /> },
-            { name: "Kubernetes", icon: <SiKubernetes className="h-6 w-6 text-blue-600" /> },
-            { name: "Let's Encrypt", icon: <span className="h-6 w-6 text-green-500 font-bold text-xs flex items-center justify-center">LE</span> },
-            { name: "Helm", icon: <span className="h-6 w-6 text-blue-400 font-bold text-xs flex items-center justify-center">H</span> },
-            { name: "PostgreSQL", icon: <SiPostgresql className="h-6 w-6 text-blue-700" /> },
-            { name: "MongoDB", icon: <SiMongodb className="h-6 w-6 text-green-500" /> },
-            { name: "Firebase", icon: <span className="h-6 w-6 text-orange-500 font-bold text-xs flex items-center justify-center">FB</span> },
-            { name: "Prisma", icon: <SiPrisma className="h-6 w-6 text-indigo-600" /> },
-            { name: "Neo4j", icon: <span className="h-6 w-6 text-green-600 font-bold text-xs flex items-center justify-center">N4J</span> },
-            { name: "Git", icon: <span className="h-6 w-6 text-orange-600 font-bold text-sm flex items-center justify-center">G</span> },
-            { name: "Figma", icon: <span className="h-6 w-6 text-purple-500 font-bold text-xs flex items-center justify-center">F</span> },
-            { name: "Cursor", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">C</span> },
-            { name: "Nginx", icon: <span className="h-6 w-6 text-green-600 font-bold text-xs flex items-center justify-center">N</span> },
-            { name: "ELK Stack", icon: <span className="h-6 w-6 text-yellow-600 font-bold text-xs flex items-center justify-center">ELK</span> },
-            { name: "Grafana", icon: <span className="h-6 w-6 text-orange-500 font-bold text-xs flex items-center justify-center">G</span> },
-            { name: "Vercel", icon: <span className="h-6 w-6 text-black dark:text-white font-bold text-xs flex items-center justify-center">V</span> },
-            { name: "REST APIs", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">R</span> },
-            { name: "GraphQL APIs", icon: <span className="h-6 w-6 text-pink-500 font-bold text-xs flex items-center justify-center">GQL</span> },
-            { name: "Stripe", icon: <SiStripe className="h-6 w-6 text-purple-500" /> },
-            { name: "Sanity CMS", icon: <SiSanity className="h-6 w-6 text-pink-500" /> },
-            { name: "Umami Analytics", icon: <SiUmami className="h-6 w-6 text-cyan-600" /> },
-            { name: "Trello", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">T</span> },
-            { name: "Notion", icon: <span className="h-6 w-6 text-gray-800 dark:text-gray-200 font-bold text-xs flex items-center justify-center">N</span> },
-            { name: "ProofHub", icon: <span className="h-6 w-6 text-red-500 font-bold text-xs flex items-center justify-center">P</span> },
-            { name: "CI/CD pipelines", icon: <span className="h-6 w-6 text-green-500 font-bold text-xs flex items-center justify-center">CD</span> },
-            { name: "Mobile cross-platform development", icon: <span className="h-6 w-6 text-blue-500 font-bold text-xs flex items-center justify-center">M</span> },
-            { name: "Agile methodologies", icon: <span className="h-6 w-6 text-purple-500 font-bold text-xs flex items-center justify-center">A</span> },
-            { name: "WebSockets", icon: <span className="h-6 w-6 text-cyan-500 font-bold text-xs flex items-center justify-center">WS</span> },
+            { name: "Dart" },
+            { name: "JavaScript" },
+            { name: "TypeScript" },
+            { name: "PHP" },
+            { name: "Python" },
+            { name: "Arduino C" },
+            { name: "GraphQL" },
+            { name: "Flutter" },
+            { name: "React" },
+            { name: "Next.js" },
+            { name: "Node.js" },
+            { name: "Express.js" },
+            { name: "Zustand" },
+            { name: "Tailwind CSS" },
+            { name: "AWS" },
+            { name: "Terraform" },
+            { name: "Jenkins" },
+            { name: "GitHub Actions" },
+            { name: "Docker" },
+            { name: "Kubernetes" },
+            { name: "Let's Encrypt" },
+            { name: "Helm" },
+            { name: "PostgreSQL" },
+            { name: "MongoDB" },
+            { name: "Firebase" },
+            { name: "Prisma" },
+            { name: "Neo4j" },
+            { name: "Git" },
+            { name: "Figma" },
+            { name: "Cursor" },
+            { name: "Nginx" },
+            { name: "ELK Stack" },
+            { name: "Grafana" },
+            { name: "Vercel" },
+            { name: "REST APIs" },
+            { name: "GraphQL APIs" },
+            { name: "Stripe" },
+            { name: "Sanity CMS" },
+            { name: "Umami Analytics" },
+            { name: "Trello" },
+            { name: "Notion" },
+            { name: "ProofHub" },
+            { name: "CI/CD pipelines" },
+            { name: "Mobile cross-platform development" },
+            { name: "Agile methodologies" },
+            { name: "WebSockets" },
           ]}
         />
           </Suspense>
