@@ -4,17 +4,32 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useGlow } from "@/components/ui/glow-provider";
 
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [buttonWidth, setButtonWidth] = useState<number>(0);
   const [drawerWidth, setDrawerWidth] = useState<number>(0);
   const [animateIn, setAnimateIn] = useState(false);
+  const { glowColor } = useGlow();
 
   const measureRef = useRef<HTMLSpanElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  const getGlowClass = () => {
+    switch (glowColor) {
+      case "cyan":
+        return "glow-cyan";
+      case "purple":
+        return "glow-purple";
+      case "emerald":
+        return "glow-emerald";
+      default:
+        return "glow-cyan";
+    }
+  };
 
   const navLinks = useMemo(() => [
     { href: "#about", label: "About" },
@@ -127,14 +142,14 @@ export function MobileMenu() {
             </div>
 
             {/* Links (centered horizontally) */}
-            <nav className="flex flex-col items-center justify-center flex-1 space-y-2">
+            <nav className={`flex flex-col items-center justify-center flex-1 space-y-2 ${getGlowClass()}`}>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
                   style={{ width: `${Math.max(buttonWidth, 120)}px` }}
-                  className="text-center px-4 py-3 text-sm sm:text-base font-medium text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-all duration-300 glass-panel hover:shadow-lg"
+                  className="mobile-link text-center px-4 py-3 text-sm sm:text-base font-medium hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-all duration-300 glass-panel hover:shadow-lg"
                 >
                   {link.label}
                 </Link>

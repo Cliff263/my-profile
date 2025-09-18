@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Glow color variables */
+  --glow-primary: #06b6d4; /* cyan-500 */
+  --glow-primary-hover: #0891b2; /* cyan-600 */
+  --glow-secondary: #8b5cf6; /* purple-500 */
+  --glow-secondary-hover: #7c3aed; /* purple-600 */
+  --glow-accent: #10b981; /* emerald-500 */
+  --glow-accent-hover: #059669; /* emerald-600 */
 }
 
 
@@ -403,4 +411,50 @@ section {
 .glass-panel:hover {
   border-color: rgba(255,255,255,0.12);
   background: color-mix(in oklab, var(--background) 80%, transparent);
+}
+
+/* Dynamic glow color classes */
+.glow-cyan {
+  --glow-color: var(--glow-primary);
+  --glow-color-hover: var(--glow-primary-hover);
+}
+
+.glow-purple {
+  --glow-color: var(--glow-secondary);
+  --glow-color-hover: var(--glow-secondary-hover);
+}
+
+.glow-emerald {
+  --glow-color: var(--glow-accent);
+  --glow-color-hover: var(--glow-accent-hover);
+}
+
+/* Dynamic nav link hover colors */
+.nav-link {
+  color: rgb(0 0 0 / 0.7);
+  transition: all 0.3s ease;
+}
+
+.dark .nav-link {
+  color: rgb(255 255 255 / 0.7);
+}
+
+.nav-link:hover {
+  color: var(--glow-color);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Dynamic mobile menu link hover colors */
+.mobile-link {
+  color: rgb(0 0 0 / 0.7);
+  transition: all 0.3s ease;
+}
+
+.dark .mobile-link {
+  color: rgb(255 255 255 / 0.7);
+}
+
+.mobile-link:hover {
+  color: var(--glow-color);
 }

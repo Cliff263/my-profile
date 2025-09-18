@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { GlowProvider } from "@/components/ui/glow-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileMenu } from "@/components/mobile-menu";
+import { DynamicNav } from "@/components/dynamic-nav";
 import PerformanceMonitor from "@/components/performance-monitor";
 import Link from "next/link";
 
@@ -116,19 +118,12 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}>
         <div className="pointer-events-none fixed inset-0 -z-10 bg-aurora bg-grid" />
         <ThemeProvider>
-          <PerformanceMonitor />
+          <GlowProvider>
+            <PerformanceMonitor />
           <header className="sticky top-0 z-40 w-full border-b border-black/10 dark:border-white/10 backdrop-blur-md bg-background/80 glass-panel">
             <div className="mx-auto max-w-6xl px-4 py-3 flex items-center gap-4">
               <Link href="#hero" className="font-semibold tracking-tight text-gradient-animate">CLIFF JAURE</Link>
-              <nav className="hidden md:flex items-center gap-6 text-sm ml-auto">
-                <Link href="#about" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">About</Link>
-                <Link href="#education" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Education</Link>
-                <Link href="#experience" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Experience</Link>
-                <Link href="#skills" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Skills</Link>
-                <Link href="#services" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Services</Link>
-                <Link href="#projects" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Projects</Link>
-                <Link href="#contact" className="text-black/70 dark:text-white/70 hover:text-cyan-400 dark:hover:text-cyan-300 hover:underline underline-offset-4 transition-all duration-300">Contact</Link>
-              </nav>
+              <DynamicNav />
               <span className="hidden md:inline-block h-6 w-px bg-black/20 dark:bg-white/20 ml-2" />
               <div className="ml-auto md:ml-0 flex items-center gap-2">
                 <ThemeToggle />
@@ -200,6 +195,7 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          </GlowProvider>
         </ThemeProvider>
       </body>
     </html>
