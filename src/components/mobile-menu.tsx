@@ -1,6 +1,5 @@
 "use client";
 
- 
 import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -14,6 +13,7 @@ export function MobileMenu() {
   const { glowColor } = useGlow();
 
   const measureRef = useRef<HTMLSpanElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -31,15 +31,18 @@ export function MobileMenu() {
     }
   };
 
-  const navLinks = useMemo(() => [
-    { href: "#about", label: "About" },
-    { href: "#education", label: "Education" },
-    { href: "#experience", label: "Experience" },
-    { href: "#skills", label: "Skills" },
-    { href: "#services", label: "Services" },
-    { href: "#projects", label: "Projects" },
-    { href: "#contact", label: "Contact" },
-  ], []);
+  const navLinks = useMemo(
+    () => [
+      { href: "#about", label: "About" },
+      { href: "#education", label: "Education" },
+      { href: "#experience", label: "Experience" },
+      { href: "#skills", label: "Skills" },
+      { href: "#services", label: "Services" },
+      { href: "#projects", label: "Projects" },
+      { href: "#contact", label: "Contact" },
+    ],
+    []
+  );
 
   // Measure text widths dynamically
   useEffect(() => {
@@ -49,8 +52,7 @@ export function MobileMenu() {
       const ctx = document.createElement("canvas").getContext("2d");
       if (!ctx) return;
 
-      // match Tailwind link styles
-      ctx.font = "500 16px system-ui, sans-serif";
+      ctx.font = "500 16px system-ui, sans-serif"; // match Tailwind styles
 
       const maxWidth = navLinks.reduce((max, link) => {
         const w = ctx.measureText(link.label).width;
@@ -59,7 +61,7 @@ export function MobileMenu() {
 
       const fullWidth = Math.ceil(maxWidth) + 32; // +16px padding each side
       setButtonWidth(fullWidth);
-      setDrawerWidth(Math.max(fullWidth, 200)); // Minimum 200px width for better UX
+      setDrawerWidth(Math.max(fullWidth, 200)); // Minimum 200px width
     }
 
     measure();
@@ -76,21 +78,29 @@ export function MobileMenu() {
     }
   }, [isOpen]);
 
-  // Close on scroll or Esc
+  // Close on Escape key or outside click/touch
   useEffect(() => {
-    if (isOpen) {
-      const handleScroll = () => closeMenu();
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") closeMenu();
-      };
+    if (!isOpen) return;
 
-      window.addEventListener("scroll", handleScroll);
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
   }, [isOpen]);
 
   return (
@@ -118,16 +128,15 @@ export function MobileMenu() {
           className={`fixed inset-0 z-[60] bg-black/40 backdrop-blur-lg transition-opacity duration-300 ${
             animateIn ? "opacity-100" : "opacity-0"
           }`}
-          onClick={closeMenu}
         >
           {/* Drawer */}
           <div
-            className={`absolute top-0 right-0 h-full glass-panel border-l border-black/10 dark:border-white/10 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col`}
-            style={{ 
+            ref={drawerRef}
+            className={`absolute top-0 right-0 h-full bg-background/80 backdrop-blur-md border-l border-black/10 dark:border-white/10 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col`}
+            style={{
               width: `${drawerWidth}px`,
-              transform: animateIn ? 'translateX(0)' : 'translateX(100%)'
+              transform: animateIn ? "translateX(0)" : "translateX(100%)",
             }}
-            onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <div className="flex justify-end p-4">
@@ -141,15 +150,17 @@ export function MobileMenu() {
               </button>
             </div>
 
-            {/* Links (centered horizontally) */}
-            <nav className={`flex flex-col items-center justify-center flex-1 space-y-2 ${getGlowClass()}`}>
+            {/* Links */}
+            <nav
+              className={`flex flex-col items-center justify-center flex-1 space-y-2 ${getGlowClass()}`}
+            >
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
                   style={{ width: `${Math.max(buttonWidth, 120)}px` }}
-                  className="mobile-link text-center px-4 py-3 text-sm sm:text-base font-medium hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition-all duration-300 glass-panel hover:shadow-lg"
+                  className="mobile-link text-center px-3 py-2 text-sm font-medium glass-panel hover:bg-white/10 rounded-lg transition-all duration-300 hover:shadow-lg"
                 >
                   {link.label}
                 </Link>

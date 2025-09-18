@@ -431,12 +431,8 @@ section {
 
 /* Dynamic nav link hover colors */
 .nav-link {
-  color: rgb(0 0 0 / 0.7);
-  transition: all 0.3s ease;
-}
-
-.dark .nav-link {
   color: rgb(255 255 255 / 0.7);
+  transition: all 0.3s ease;
 }
 
 .nav-link:hover {
@@ -445,16 +441,12 @@ section {
   text-underline-offset: 4px;
 }
 
-/* Dynamic mobile menu link hover colors */
+/* Dynamic mobile menu link colors */
 .mobile-link {
-  color: rgb(0 0 0 / 0.7);
+  color: rgb(255 255 255 / 0.7) !important;
   transition: all 0.3s ease;
 }
 
-.dark .mobile-link {
-  color: rgb(255 255 255 / 0.7);
-}
-
 .mobile-link:hover {
-  color: var(--glow-color);
+  color: var(--glow-color, #06b6d4) !important;
 }
