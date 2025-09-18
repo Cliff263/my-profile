@@ -8,7 +8,15 @@ interface Props {
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
-  const project = await prisma.project.findUnique({ where: { slug } });
+  
+  let project;
+  try {
+    project = await prisma.project.findUnique({ where: { slug } });
+  } catch (error) {
+    console.error('Database connection error:', error);
+    return <div className="mx-auto max-w-4xl px-4 py-20">Unable to load project. Please try again later.</div>;
+  }
+  
   if (!project) return <div className="mx-auto max-w-4xl px-4 py-20">Project not found.</div>;
 
   const mediaItems = Array.isArray(project.media) ? (project.media as Array<{ type: string; src: string }>) : [];
@@ -56,8 +64,14 @@ export default async function ProjectPage({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-  const projects = await prisma.project.findMany({ select: { slug: true } });
-  return projects.map((p) => ({ slug: p.slug }));
+  try {
+    const projects = await prisma.project.findMany({ select: { slug: true } });
+    return projects.map((p) => ({ slug: p.slug }));
+  } catch (error) {
+    console.warn('Failed to fetch projects for static generation:', error);
+    // Return empty array if database is not available during build
+    return [];
+  }
 }
 
 
